@@ -1,0 +1,22 @@
+<% @statusupdate.comments.each do |comment| %>
+	<table border=0>
+		<tr>
+			<td width=295><b><%= comment.commenter %></b>  </td>		
+		</tr>
+		<tr>
+			<td>
+				&nbsp;&nbsp;&nbsp;<%= comment.body %>
+				<br>
+				<% if comment.commenter == @account.username || @account.username  == @statusupdate.username %> 
+					<% if cannot? :destroy, @comment %>
+						<small><small><small>
+						<i>
+							<%= link_to 'Delete' , [comment.statusupdate, comment], :confirm => 'Are you sure?', :method => :delete %>
+						</i>
+						</small></small></small>
+					<% end %>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+<% end %>

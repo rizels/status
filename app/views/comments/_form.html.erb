@@ -1,0 +1,10 @@
+<%= form_for([@statusupdate, @statusupdate.comments.build]) do |c| %>	
+	<table>		
+		<tr>
+			<td><%= c.text_area :body, :size => "80x1"%></td>
+		</tr>
+		<tr>
+			<td><%= c.submit "Add Comment" %></td>
+		</tr>
+	</table>  
+<% end %>

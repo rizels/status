@@ -1,0 +1,19 @@
+<%= form_for @statusupdate do |su| %>
+	<% if @statusupdate.errors.any? %>
+		<b>Errors : </b><br>
+		<ul>
+			<% @statusupdate.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>	
+		</ul>
+	<% end %>
+	<table>
+		<tr>
+			<td><%= su.text_area :content,:size => "150x2", :placeholder => "What's on your mind now?" %></td>
+		</tr>			
+		<tr>
+			<td><%= su.submit "Update Status" %></td>
+		</tr>
+	</table>
+<% end %>
+<hr>

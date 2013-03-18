@@ -1,0 +1,22 @@
+<center><b>You are logged as <%= @account.username %></b></center>
+<hr>
+
+<%= form_for @statusupdate do |su| %>
+	<b><%= @statusupdate.username %> status <br></b>
+	<% if @statusupdate.errors.any? %>
+		<b>Errors : </b><br>
+		<ul>
+			<% @statusupdate.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>	
+		</ul>
+	<% end %>
+	<table>		
+		<tr>
+			<td><%= su.text_area :content %></td>
+		</tr>
+		<tr>
+			<td><%= su.submit "Edit Status" %></td>
+		</tr>
+	</table>
+<% end %>
