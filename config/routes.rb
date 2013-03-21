@@ -1,9 +1,12 @@
 Status::Application.routes.draw do
+  resources :infos
   resources :accounts
   resources :sessions
   resources :statusupdates do
     resources :comments
   end
+
+
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "accounts#new", :as => "signup"

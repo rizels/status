@@ -1,22 +1,20 @@
-<center><b>You are logged as <%= @account.username %></b></center>
-<hr>
-
-<h1><%= @statusupdate.username %> Status</h1>
+<b><%= @statusupdate.username %></b> <br>
 <p>
-	<b>Status</b> : <br>
 	<%= @statusupdate.content %> <br>
 	<small><small><%= @statusupdate.updatetime %></small></small>
 </p>
 
 <b>Comments</b><br>
+<%= paginate @comments %><br>
 <%= render "comments/comment" %>
+<%= paginate @comments %>
 
 <b>Add a comment:</b>
 <%= render "comments/form" %>
 <% if @statusupdate.username == @account.username %>
 	<% if cannot? :update, @statusupdate %>
-		<%= link_to 'Edit Status', edit_statusupdate_path(@statusupdate) %>
+		<%= link_to 'Edit Status', edit_statusupdate_path(@statusupdate), :class => 'btn btn-mini'%>
 	<% end %>	
 <% end %>
-<br>
-<%= link_to 'Back to Status Updates', statusupdates_path %> 
+<%= link_to 'Back to Status Updates', statusupdates_path, :class => 'btn btn-mini'%> 
+<%= link_to 'View All Comments', statusupdate_comments_path(@statusupdate), :class => 'btn btn-mini'%> 

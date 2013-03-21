@@ -22,14 +22,19 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+  gem 'bootstrap-sass'
+  #gem 'twitter-bootstrap-rails'
 end
 
 gem 'jquery-rails'
 
-group :production do
-  gem 'pg', '0.12.2'
-end
+#group :production do
+#  gem 'pg', '0.12.2'
+#end
 
+gem 'less'
+gem 'less-rails'
+gem 'therubyracer'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -46,5 +51,10 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'debugger'
 
 gem "cancan", "~> 1.6.9"
-gem 'bootstrap-sass'
 gem 'simple_form'
+gem 'kaminari'
+gem "rmagick"
+gem "carrierwave"
+gem 'nifty-generators'
+gem "pry"
+gem "acts_as_paranoid", "~>0.4.0"

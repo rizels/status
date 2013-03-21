@@ -17,11 +17,13 @@ class AccountsController < ApplicationController
 	end
 
 	def update
-		@account = Account.find(session[:account_id])
+		@account = Account.find(session[:account_id])		
 		if @account.update_attributes(params[:account])
+	#	if @account.update_attribute(image, :img)
 			redirect_to statusupdates_path, :notice => "Your Profile has been edited"
 		else
-			render "edit"
+			raise @account.errors.full_messages.inspect
+			render "edit", :notice => "Your Profile has been edited"
 		end
 	end
 end

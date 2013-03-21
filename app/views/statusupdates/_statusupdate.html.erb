@@ -1,19 +1,40 @@
-<% @statusupdates.sort_by{|e| -e[:id]}.each do |statusupdate| %>
-	<b><%= statusupdate.username %></b> <br>
-	<%= statusupdate.content %> <br>
-	<small>
-		<i><%= link_to statusupdate.comments.all.count.to_s << " comments",  statusupdate%></i> <br>
-		<%= statusupdate.updatetime %> <br>
-		<% if statusupdate.username == @account.username %>
-			<% if cannot? :update, @statusupdate %>
-				<%= link_to "Edit", edit_statusupdate_path(statusupdate) %>
-			<% end %>
-			 | 
-			<% if cannot? :update, @statusupdate %>
-				<%= link_to "Delete", statusupdate, :confirm => "Are you sure?", :method => :delete %>
-			<% end %>	
-		<% end %>
-		
-	</small>
+<%= paginate @statusupdates %>
+<%# @statusupdates.sort_by{|e| -e[:id]}.each do |statusupdate| %>
+<% for statusupdate in @statusupdates %>
+	<table>
+		<tr>
+			<td>
+				<div class="center">
+					<div class="hidden">
+						<%= @ava = Account.find_by_username(statusupdate.username) %>
+					</div>					
+					<%= image_tag @ava.image_url(:thumb) if @ava.try(:image?) %>
+				</div>
+			</td>
+			<td>
+				&nbsp;&nbsp;&nbsp;
+			</td>
+			<td>
+				<b><%= statusupdate.username %></b> <br>
+				<%= statusupdate.content %> <br>
+				<small>
+					<i><%= link_to statusupdate.comments.all.count.to_s << " comments",  statusupdate%></i> <br>
+					<%= statusupdate.updatetime %> <br>
+						<%# binding.pry %>
+						<% if can? :update, statusupdate %>
+							<%= link_to "Edit", edit_statusupdate_path(statusupdate), :class => 'btn btn-mini'%>
+						<% end %>
+						<% if can? :destroy, statusupdate %>
+							<%= link_to "Delete", statusupdate, :confirm => "Are you sure?", :method => :delete , :class => 'btn btn-mini btn-danger' %>
+						<% end %>						
+						<% if !statusupdate.deleted_at.nil? %>
+							<i>deleted</i>
+						<% end %>					
+				</small>
+			</td>
+		</tr>
+	</table>
 	<hr>
 <% end %>
+
+<%= paginate @statusupdates %>

@@ -1,22 +1,26 @@
-<% @statusupdate.comments.each do |comment| %>
-	<table border=0>
+<% for comment in @comments %>
+	<table class="table table-striped">
 		<tr>
-			<td width=295><b><%= comment.commenter %></b>  </td>		
-		</tr>
-		<tr>
-			<td>
-				&nbsp;&nbsp;&nbsp;<%= comment.body %>
-				<br>
-				<% if comment.commenter == @account.username || @account.username  == @statusupdate.username %> 
-					<% if cannot? :destroy, @comment %>
-						<small><small><small>
-						<i>
-							<%= link_to 'Delete' , [comment.statusupdate, comment], :confirm => 'Are you sure?', :method => :delete %>
-						</i>
-						</small></small></small>
-					<% end %>
+			<td><b><%= comment.commenter %></b>  <%= comment.body %></td>
+			<% if !comment.deleted_at.nil? %>
+				<td width="3%">
+					<i>deleted</i>
+				</td>		
+			<% end %>
+			<td width="3%">
+				<%= link_to 'Show', statusupdate_comment_path(:statusupdate_id => comment.statusupdate_id, :id => comment.id), :class => 'btn btn-mini btn-mini' %>
+			</td>		
+			<td width="3%">
+				<% if can? :update, comment %>
+					<%= link_to 'Edit', edit_statusupdate_comment_path(:statusupdate_id => comment.statusupdate_id, :id => comment.id), :class => 'btn btn-mini btn-mini' %>
+				<% end %>
+			</td>
+			<td width="3%">
+				<% if can? :destroy, comment %>
+					<%= link_to 'Delete' , [comment.statusupdate, comment], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-mini btn-danger' %>
 				<% end %>
 			</td>
 		</tr>
+	
 	</table>
 <% end %>

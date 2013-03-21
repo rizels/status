@@ -1,18 +1,27 @@
 class StatusupdatesController < ApplicationController
 	def index
 		if session[:account_id] != nil
-			@statusupdates = Statusupdate.all
-			@statusupdate = Statusupdate.new		
-			@account = Account.find(session[:account_id]) if session[:account_id]			
+			@account = Account.find(session[:account_id]) if session[:account_id]
+			if @account.role == "admin"
+				@statusupdates = Statusupdate.order("updatetime DESC").with_deleted.page(params[:page]).per(5)
+			else
+				@statusupdates = Statusupdate.order("updatetime DESC").page(params[:page]).per(5)
+			end
+				@statusupdate = Statusupdate.new									
 		else
 			redirect_to new_session_path
 		end
 
 	end
 
-	def show
+	def show	    
 		@statusupdate = Statusupdate.find(params[:id])
 		@account = Account.find(session[:account_id]) if session[:account_id]
+		if @account.role == "admin"
+			@comments = Statusupdate.find(params[:id]).comments.with_deleted.page(params[:page]).per(3)
+		else
+			@comments = Statusupdate.find(params[:id]).comments.page(params[:page]).per(3)
+		end
 	end
 
 	def new
@@ -44,7 +53,7 @@ class StatusupdatesController < ApplicationController
 		if @statusupdate.update_attributes(params[:statusupdate])
 			redirect_to statusupdates_path, :notice => "Your Status has been edited"
 		else
-			render "edit"
+			render "edit", :notice => "Error edited status"
 		end
 	end
 
@@ -52,5 +61,9 @@ class StatusupdatesController < ApplicationController
 		@statusupdate = Statusupdate.find(params[:id])
 		@statusupdate.destroy
 		redirect_to statusupdates_path, :notice => "Your Status has been deleted"
+	end
+	
+	def recovery
+		
 	end
 end

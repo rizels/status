@@ -7,12 +7,18 @@
 			<% end %>	
 		</ul>
 	<% end %>
-	<table>
+	<table class="table table-striped">
 		<tr>
+			<td rowspan=3>
+				<div class="center">
+				<%= image_tag @account.image_url(:thumb) if @account.image? %>
+				</div>
+			</td>			
+		</tr>
 			<td><%= su.text_area :content,:size => "150x2", :placeholder => "What's on your mind now?" %></td>
-		</tr>			
+		</tr>
 		<tr>
-			<td><%= su.submit "Update Status" %></td>
+			<td><%= su.submit "Update Status", :class => 'btn btn-primary' %></td>			
 		</tr>
 	</table>
 <% end %>
