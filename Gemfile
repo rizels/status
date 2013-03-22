@@ -36,7 +36,7 @@ gem 'less'
 gem 'less-rails'
 gem 'therubyracer'
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0', :require => "bcrypt"
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -55,6 +55,10 @@ gem 'simple_form'
 gem 'kaminari'
 gem "rmagick"
 gem "carrierwave"
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'nifty-generators'
 gem "pry"
 gem "acts_as_paranoid", "~>0.4.0"
+#gem 'mongoid', '2.0.0.beta.19'
+gem "mongoid", "~> 3.0.0"
+gem 'bson_ext'

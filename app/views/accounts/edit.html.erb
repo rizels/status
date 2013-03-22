@@ -1,13 +1,6 @@
 <h2>Change your Avatar</h2>
 
-<%#= simple_form_for @account, :html => {:multipart => true} do |f| %>
-	<%#= f.input :username, :label => 'Username', :readonly => true %>	
-	<%#= f.input :password, :label => 'Password' %>	
-	<%#= f.input :password_confirmation, :label => 'Confirm' %>	
-	<%#= f.submit "Change Password", :class => 'btn btn-primary' %>
-<%# end %>
-
-<%= simple_form_for @account, :html => {:multipart => true} do |f| %>
+<%= simple_form_for @current_user, :html => {:multipart => true} do |f| %>
 	<%= f.input :username, :label => 'Username', :readonly => true %>
 	<%= f.input :image, :label => 'Chosse your avatar' %>
 	<%= f.input :remote_image_url, :label => 'or Image url' %>

@@ -1,26 +1,29 @@
 class StatusupdatesController < ApplicationController
+
 	def index
+		authorize! :read, @account		
 		if session[:account_id] != nil
-			@account = Account.find(session[:account_id]) if session[:account_id]
+			@account = Account.find_by(_id: session[:account_id])
 			if @account.role == "admin"
-				@statusupdates = Statusupdate.order("updatetime DESC").with_deleted.page(params[:page]).per(5)
+				@statusupdates = Statusupdate.unscoped.order_by([:updatetime, :desc]).page(params[:page]).per(5)
 			else
-				@statusupdates = Statusupdate.order("updatetime DESC").page(params[:page]).per(5)
+				@statusupdates = Statusupdate.order_by([:updatetime, :desc]).page(params[:page]).per(3)
 			end
-				@statusupdate = Statusupdate.new									
+			@statusupdate = Statusupdate.new									
 		else
 			redirect_to new_session_path
 		end
-
 	end
 
 	def show	    
-		@statusupdate = Statusupdate.find(params[:id])
-		@account = Account.find(session[:account_id]) if session[:account_id]
+		@account = Account.find_by(_id: session[:account_id])
+		@statusupdate = Statusupdate.unscoped.find_by(_id: params[:id])
+		authorize! :read, @statusupdate# if @account && @account.role != 'admin' && @statusupdate && @statusupdate.deleted_at != nil 
+		@comments = @statusupdate.comments.page(params[:page]).per(3)
 		if @account.role == "admin"
-			@comments = Statusupdate.find(params[:id]).comments.with_deleted.page(params[:page]).per(3)
+			@comments = @statusupdate.comments.unscoped.page(params[:page]).per(3)
 		else
-			@comments = Statusupdate.find(params[:id]).comments.page(params[:page]).per(3)
+			@comments = @statusupdate.comments.page(params[:page]).per(3)
 		end
 	end
 
@@ -29,11 +32,10 @@ class StatusupdatesController < ApplicationController
 	end
 
 	def create
-		@account = Account.find(session[:account_id])
-		@statusupdate = Statusupdate.new(params[:statusupdate])
+		@account = Account.find_by(_id: session[:account_id])
+		@statusupdate = Statusupdate.new(params[:statusupdate])		
 		@statusupdate.username = @account.username
 		@statusupdate.updatetime = Time.now
-
 		if @statusupdate.save
 			redirect_to statusupdates_path, :notice => "Your Status has been updated"
 		else
@@ -42,9 +44,9 @@ class StatusupdatesController < ApplicationController
 	end
 
 	def edit
-		@account = Account.find(session[:account_id])
-		@statusupdate = Statusupdate.find(params[:id])
-		authorize! :all, @statusupdate unless @statusupdate.username == @account.username
+		@account = Account.find_by(_id: session[:account_id])
+		@statusupdate = Statusupdate.find_by(_id: params[:id])
+		authorize! :read, @account unless @account.username == @statusupdate.username
 	end
 
 	def update
@@ -66,4 +68,5 @@ class StatusupdatesController < ApplicationController
 	def recovery
 		
 	end
+
 end

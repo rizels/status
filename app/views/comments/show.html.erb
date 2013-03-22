@@ -1,0 +1,12 @@
+<h1>Show Comment</h1>
+<b>comment by <%= @comment.commenter %> : </b>
+<p>
+	<%= @comment.body %>
+</p>
+<%= link_to "Back to status",  statusupdate_path(@statusupdate), :class => 'btn btn-mini' %>
+<% if can? :update, @comment %>
+	<% if @comment.deleted_at == nil %>
+		<%= link_to 'Edit', edit_statusupdate_comment_path(@statusupdate, @comment), :class => 'btn btn-mini btn-mini' %>
+	<% end %>
+<% end %>
+

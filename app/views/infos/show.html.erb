@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @info.name %>
+</p>
+
+<ol>
+	<% for detailinfo in @info.detailinfos %>
+		<li><%=h detailinfo.content %></li>
+	<% end %>
+</ol>
+
+
+<%= link_to 'Edit', edit_info_path(@info), :class => 'btn btn-mini' %>
+<%= link_to 'Back', infos_path, :class => 'btn btn-mini' %>

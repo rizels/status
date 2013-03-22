@@ -11,7 +11,7 @@
 		<tr>
 			<td rowspan=3>
 				<div class="center">
-				<%= image_tag @account.image_url(:thumb) if @account.image? %>
+				<%= image_tag @current_user.image_url(:thumb) if @current_user.image? %>
 				</div>
 			</td>			
 		</tr>

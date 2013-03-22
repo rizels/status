@@ -8,19 +8,22 @@
 				</td>		
 			<% end %>
 			<td width="3%">
-				<%= link_to 'Show', statusupdate_comment_path(:statusupdate_id => comment.statusupdate_id, :id => comment.id), :class => 'btn btn-mini btn-mini' %>
+				<%= link_to 'Show', statusupdate_comment_path(@statusupdate, comment), :class => 'btn btn-mini btn-mini' %>
 			</td>		
 			<td width="3%">
 				<% if can? :update, comment %>
-					<%= link_to 'Edit', edit_statusupdate_comment_path(:statusupdate_id => comment.statusupdate_id, :id => comment.id), :class => 'btn btn-mini btn-mini' %>
+					<% if comment.deleted_at == nil %>
+						<%= link_to 'Edit', edit_statusupdate_comment_path(@statusupdate, comment), :class => 'btn btn-mini btn-mini' %>
+					<% end %>
 				<% end %>
 			</td>
 			<td width="3%">
 				<% if can? :destroy, comment %>
-					<%= link_to 'Delete' , [comment.statusupdate, comment], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-mini btn-danger' %>
+					<% if comment.deleted_at == nil %>
+						<%= link_to 'Delete' , [@statusupdate, comment], :confirm => 'Are you sure?', :method => :delete, :class => 'btn btn-mini btn-danger' %>
+					<% end %>
 				<% end %>
 			</td>
-		</tr>
-	
+		</tr>	
 	</table>
 <% end %>

@@ -1,0 +1,9 @@
+<h2>Listing Comment from status </h2>
+<b><%= @statusupdate.content %></b><br>
+by <%= @statusupdate.username %>
+<br><br>
+<%= paginate @comments %>
+	<%= render "comments/comment" %>
+<%= paginate @comments %>
+<br>
+<%= link_to "Back to status",  statusupdate_path(@statusupdate), :class => 'btn btn-mini' %>

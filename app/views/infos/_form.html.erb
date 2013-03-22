@@ -1,0 +1,20 @@
+<%#= simple_form_for(@info) do |f| %>
+  <%#= f.error_notification %>
+<%= form_for @info do |f| %>  
+  <%= f.error_messages %>
+
+  <div class="form-inputs">
+  	<%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.fields_for :detailinfos do |builder| %>
+  	<%= render 'detailinfo_fields', f: builder %>
+  <% end %>
+  
+  <br>
+  <%= link_to_add_fields 'Add Detail Information', f, :detailinfos %><br><br>
+
+
+  <%= f.submit "Information", :class => 'btn btn-primary'%>
+<% end %>

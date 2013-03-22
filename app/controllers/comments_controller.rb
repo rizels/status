@@ -4,8 +4,8 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @account = Account.find(session[:account_id])
-    @statusupdate = Statusupdate.find(params[:statusupdate_id])
+    @account = Account.find_by(_id: session[:account_id])
+    @statusupdate = Statusupdate.find_by(_id: params[:statusupdate_id])
     @comment = @statusupdate.comments.new(params[:comment])
     @comment.commenter = @account.username
     if @comment.save
@@ -18,19 +18,22 @@ class CommentsController < ApplicationController
   def index
     @account = Account.find(session[:account_id])
     @statusupdate = Statusupdate.find(params[:statusupdate_id])
-    @comments = @statusupdate.comments.all#order("id DESC").page(params[:page]).per(3)
+    @comments = @statusupdate.comments.order_by([:created_at, :asc]).page(params[:page]).per(3)
   end
 
   def show
-    @account = Account.find(session[:account_id])
-    @statusupdate = Statusupdate.find(params[:statusupdate_id])
-    @comment = @statusupdate.comments.find(params[:id])
+    @account = Account.find_by(_id: session[:account_id])
+    @statusupdate = Statusupdate.find_by(_id: params[:statusupdate_id])
+    @comment = @statusupdate.comments.unscoped.find_by(_id: params[:id])
+    authorize! :read, @comment #if @account && @account.role != 'admin' && @comment && @comment.deleted_at != nil 
+
   end
 
   def edit
     @account = Account.find(session[:account_id])
-    @statusupdate = Statusupdate.find(params[:statusupdate_id])
-    @comment = @statusupdate.comments.find(params[:id])
+    @statusupdate = Statusupdate.find_by(_id: params[:statusupdate_id])
+    @comment = @statusupdate.comments.find_by(_id: params[:id])
+    authorize! :read, @account unless @comment && @comment.commenter == @account.username
   end
 
   def update
